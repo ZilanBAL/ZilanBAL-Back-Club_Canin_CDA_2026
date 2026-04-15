@@ -11,6 +11,9 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Getter
 @Setter
@@ -39,5 +42,20 @@ public class TypeCours {
 
     @JsonView(SeanceView.class)
     protected Integer ageMax;
+
+    @Column(nullable = false)
+    @JsonView(SeanceView.class)
+    private boolean estSeanceInscription = false;
+
+    // Compétences requises pour accéder à ce type de cours.
+    // Liste vide = aucune compétence requise (ouvert à tous).
+    @ManyToMany
+    @JoinTable(
+            name = "competence_necessaire_cours",
+            joinColumns = @JoinColumn(name = "type_cours_id"),
+            inverseJoinColumns = @JoinColumn(name = "competence_id")
+    )
+    @JsonView(SeanceView.class)
+    private List<Competence> competencesNecessaires = new ArrayList<>();
 
 }

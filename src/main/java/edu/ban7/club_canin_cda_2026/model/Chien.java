@@ -26,7 +26,7 @@ import java.util.List;
 public class Chien {
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
-    @JsonView({ChienView.class, AppPersonneView.class})
+    @JsonView(ChienView.class)
     protected Integer id;
 
     @Column(length = 50, nullable = false)
@@ -41,14 +41,20 @@ public class Chien {
     protected LocalDate dateNaissance;
 
     @Column(unique = true)
-    @JsonView(ChienView.class)
+    @JsonView({ChienView.class, AppPersonneView.class})
     protected String matricule;
 
     @JsonView(ChienView.class)
     protected Double taille;
 
     @JsonView(ChienView.class)
-    protected Double poid;
+    protected Double poids;
+
+    // Tant que ce champ est false, le chien ne peut pas s'inscrire à d'autres séances.
+    // Seul un coach peut le passer à true, après avoir évalué le chien.
+    @Column(nullable = false)
+    @JsonView(ChienView.class)
+    private boolean seanceObligatoireFaite = false;
 
     // Relation avec Sexe : un chien a exactement un sexe
     // @ManyToOne : plusieurs chiens peuvent avoir le même sexe
@@ -79,9 +85,7 @@ public class Chien {
             joinColumns = @JoinColumn(name = "chien_id"),
             inverseJoinColumns = @JoinColumn(name = "competence_id")
     )
-
     @JsonView(ChienView.class)
-    protected List<Competence> competences = new ArrayList<>();
-
+    private List<Competence> competences = new ArrayList<>();
 
 }

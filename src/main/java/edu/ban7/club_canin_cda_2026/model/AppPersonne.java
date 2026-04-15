@@ -2,6 +2,7 @@ package edu.ban7.club_canin_cda_2026.model;
 
 import com.fasterxml.jackson.annotation.JsonView;
 import edu.ban7.club_canin_cda_2026.view.AppPersonneView;
+import edu.ban7.club_canin_cda_2026.view.ChienView;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -36,12 +37,12 @@ public class AppPersonne {
     @Column(length = 50, nullable = false)
     @NotBlank(groups = {OnCreate.class}, message = "Le nom ne peut pas être vide")
     @Length(min=3, max=50)
-    @JsonView(AppPersonneView.class)
+    @JsonView({AppPersonneView.class, ChienView.class})
     protected String nom;
 
     @Column(nullable = false)
     @NotBlank(groups = {OnCreate.class}, message = "Le prénom ne peut pas être vide")
-    @JsonView(AppPersonneView.class)
+    @JsonView({AppPersonneView.class, ChienView.class})
     protected String prenom;
 
     @Column(nullable = false)
@@ -65,18 +66,18 @@ public class AppPersonne {
 
 
     @ManyToOne
-    @JsonView(edu.ban7.club_canin_cda_2026.view.AppPersonneView.class)
+    @JsonView(AppPersonneView.class)
     protected Role role;
 
 
     @OneToMany(mappedBy = "proprietaire")
-    @JsonView(edu.ban7.club_canin_cda_2026.view.AppPersonneView.class)
-    List<Chien> chiens = new ArrayList<>();
+    @JsonView(AppPersonneView.class)
+    private List<Chien> chiens = new ArrayList<>();
 
 
     @OneToMany(mappedBy = "coach")
-    @JsonView(edu.ban7.club_canin_cda_2026.view.AppPersonneView.class)
-    List<Seance> seances = new ArrayList<>();
+    @JsonView(AppPersonneView.class)
+    private List<Seance> seances = new ArrayList<>();
 
 
 }

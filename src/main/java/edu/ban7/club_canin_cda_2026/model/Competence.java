@@ -10,6 +10,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
 
+import java.util.List;
+
 @Entity
 @Getter
 @Setter
@@ -27,5 +29,8 @@ public class Competence {
     @Length(min=3, max=50)
     @JsonView(ChienView.class)
     protected String nom;
+
+    @ManyToMany(mappedBy = "competencesNecessaires")
+    private List<TypeCours> typesCours;
 
 }

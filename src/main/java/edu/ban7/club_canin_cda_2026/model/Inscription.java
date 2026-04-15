@@ -21,8 +21,8 @@ import java.time.LocalDate;
 @AllArgsConstructor
 public class Inscription {
 
+    // Vérifier le cours
     // Classe interne représentant la clé primaire composée (chienId + seanceId)
-    // Une inscription est unique pour un couple (chien, séance)
     // @Embeddable : cette classe est intégrée dans l'entité parente (pas de table propre)
     @Embeddable
     @AllArgsConstructor
@@ -58,9 +58,12 @@ public class Inscription {
     @JsonView(SeanceView.class)
     protected LocalDate dateInscription;
 
-    // "EN_ATTENTE", "CONFIRME" ou "ANNULE"
-    @Column(length = 20)
+
+    // true = présent en séance, false = absent
+    @Column(nullable = false)
     @JsonView(SeanceView.class)
-    protected String statut;
+    private boolean statut = false;
+
+
 
 }
